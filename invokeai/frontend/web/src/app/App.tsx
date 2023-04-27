@@ -14,7 +14,13 @@ import { APP_HEIGHT, APP_WIDTH } from 'theme/util/constants';
 import ImageGalleryPanel from 'features/gallery/components/ImageGalleryPanel';
 import Lightbox from 'features/lightbox/components/Lightbox';
 import { useAppDispatch, useAppSelector } from './storeHooks';
-import { PropsWithChildren, useCallback, useEffect, useState } from 'react';
+import {
+  memo,
+  PropsWithChildren,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Loading from 'common/components/Loading/Loading';
 import { useIsApplicationReady } from 'features/system/hooks/useIsApplicationReady';
@@ -23,13 +29,15 @@ import { useGlobalHotkeys } from 'common/hooks/useGlobalHotkeys';
 import { configChanged } from 'features/system/store/configSlice';
 import { useFeatureStatus } from 'features/system/hooks/useFeatureStatus';
 
+const DEFAULT_CONFIG = {};
+
 keepGUIAlive();
 
 interface Props extends PropsWithChildren {
   config?: PartialAppConfig;
 }
 
-const App = ({ config = {}, children }: Props) => {
+const App = ({ config = DEFAULT_CONFIG, children }: Props) => {
   useToastWatcher();
   useGlobalHotkeys();
 
@@ -121,4 +129,4 @@ const App = ({ config = {}, children }: Props) => {
   );
 };
 
-export default App;
+export default memo(App);
